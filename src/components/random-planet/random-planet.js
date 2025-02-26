@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import Spinner from '../spinner/spinner'; // если файл называется spinner.js
-import SwapiService from '../../services/swapi-service';
-import './random-planet.css';
+import React, { Component } from 'react'
+import Spinner from '../spinner'
+import SwapiService from '../../services/swapi-service'
+import './random-planet.css'
 
 export default class RandomPlanet extends Component {
-    swapiService = new SwapiService();
+    swapiService = new SwapiService()
 
     state = {
         planet: {},
         loading: true
     };
 
-    constructor() {
-        super();
-        this.updatePlanet();
+    constructor(props) {
+        super(props)
+        this.updatePlanet()
     }
 
     onPlanetLoaded = (planet) => {
@@ -23,17 +23,17 @@ export default class RandomPlanet extends Component {
         });
     };
 
-    updatePlanet() {
-        const id = Math.floor(Math.random() * 25) + 1;
+    updatePlanet = () => {
+        const id = Math.floor(Math.random()*15) + 2;
         this.swapiService
             .getPlanet(id)
             .then(this.onPlanetLoaded);
     }
 
     render() {
-        const { planet, loading } = this.state;
-        const spinner = loading ? <Spinner /> : null;
-        const content = !loading ? <PlanetView planet={planet} /> : null;
+        const { planet, loading } = this.state
+        const spinner = loading ? <Spinner /> : null
+        const content = !loading ? <PlanetView planet={planet}/> : null
 
         return (
             <div className="random-planet jumbotron rounded">
@@ -42,18 +42,18 @@ export default class RandomPlanet extends Component {
             </div>
         );
     }
+
 }
 
 const PlanetView = ({ planet }) => {
-    const { id, name, population, rotationPeriod, diameter } = planet;
+    
+    const { id, name, population,
+        rotationPeriod, diameter } = planet;
 
     return (
         <React.Fragment>
             <img className="planet-image"
-                 src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
-                 alt={`Image of plansset ${name}`}
-            />
-
+                 src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}  alt={'Planet'}/>
             <div>
                 <h4>{name}</h4>
                 <ul className="list-group list-group-flush">
