@@ -1,42 +1,48 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react'
+ 
+ import Header from '../header'
+ import RandomPlanet from '../random-planet'
+ 
+ import './app.css'
+ import ErrorIndicator from "../error-indicator"
+ import ErrorBoundary from "../error-boundary"
 
-import Header from '../header';
-import RandomPlanet from '../random-planet';
-import ItemList from '../item-list';
-import PersonDetails from '../person-details';
-import SwapiService from "../../services/swapi-service";
-
-import './app.css';
-
-export default class App extends Component {
-    swapiService = new SwapiService();
-
-    state = {
-        selectedPerson: null
-    };
-
-    onPersonSelected = (id) => {
-        this.setState({ selectedPerson: id });
-    };
-
-    render() {
-        return (
-            <div>
-                <Header />
-                <RandomPlanet />
-
-                <div className="row mb2">
-                    <div className="col-md-6">
-                        <ItemList
-                            onItemSelected={this.onPersonSelected}
-                            getData={ this.swapiService.getAllStarships }
-                            renderItem={ (item) => item.name }/>
-                    </div>
-                    <div className="col-md-6">
-                        <PersonDetails personId={this.state.selectedPerson} />
-                    </div>
-                </div>
-            </div>
-        );
-    }
-}
+ import { SwapiServiceProvider } from '../swapi-service-context'
+ import SwapiService from "../../services/swapi-service"
+ import { PeoplePage, PlanetsPage, StarshipsPage } from "../pages"
+ 
+ export default class App extends Component{
+ 
+     state = {
+         selectedItem: null,
+         hasError: false,
+         swapiService: new SwapiService()
+     }
+ 
+     componentDidCatch(error, errorInfo) {
+         this.setState({ hasError: true })
+     }
+ 
+     render() {
+ 
+         if (this.state.hasError) {
+             return <ErrorIndicator />
+         }
+ 
+         return (
+             <ErrorBoundary>
+                 <SwapiServiceProvider value={this.state.swapiService} >
+                     <div className="stardb-app">
+ 
+                         <Header/>
+                         <RandomPlanet />
+                         <PeoplePage />
+                         <PlanetsPage />
+                         <StarshipsPage />
+ 
+                     </div>
+                 </SwapiServiceProvider>
+             </ErrorBoundary>
+         )
+     }
+ }
