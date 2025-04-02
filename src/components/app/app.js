@@ -10,7 +10,8 @@ import React, {Component} from 'react'
  
  import { SwapiServiceProvider } from '../swapi-service-context'
  import SwapiService from "../../services/swapi-service"
- import { PeoplePage, PlanetsPage, StarshipsPage, LoginPage, SecretPage } from "../pages"
+
+ import {PeoplePage, PlanetsPage, StarshipsPage, LoginPage, SecretPage, WelcomePage} from "../pages"
  
  import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
  import StarshipDetails from "../sw-components/starship-details";
@@ -50,7 +51,8 @@ import React, {Component} from 'react'
                              <Header/>
                              <RandomPlanet />
                              <Switch>
-                                 <Route path="/" render={() => <h4>Welcome to StarDB</h4>} exact />
+                            
+                                 <Route path="/" component={WelcomePage} exact />
  
                                  <Route path="/people/:id?" component={PeoplePage} exact/>
  
@@ -70,6 +72,7 @@ import React, {Component} from 'react'
                                  <Route path="/secret" render={() => (
                                      <SecretPage isLoggedIn={ isLoggedIn }/>
                                  )} exact />
+ 
                                  <Route component={NotFoundIndicator}/>
                              </Switch>
                          </div>
