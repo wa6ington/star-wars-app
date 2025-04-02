@@ -1,7 +1,7 @@
 import React, {Component} from "react"
  
  import Spinner from "../spinner"
- import ErrorIndicator from "../error-indicator"
+ import { ErrorIndicator } from "../errors"
  
  const withData = (View) => {
      return class extends Component {
@@ -38,6 +38,7 @@ import React, {Component} from "react"
              if (loading) return <Spinner />
  
              if (error) return <ErrorIndicator />
+ 
              return <View { ...this.props } data={ data } />
          }
      }
